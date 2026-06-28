@@ -1,6 +1,26 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/spectator.html" }
+    { "source": "/", "destination": "/spectator.html" },
+    { "source": "/spectator", "destination": "/spectator.html" },
+    { "source": "/rounds", "destination": "/rounds.html" },
+    { "source": "/audit", "destination": "/audit.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Content-Type", "value": "text/css" }   
+      ]
+    },
+    {
+      "source": "/assets/main.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Content-Type", "value": "application/javascript" }
+      ]
+    }
   ]
 }
