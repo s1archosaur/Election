@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/spectator.html" },
+    { "source": "/spectator", "destination": "/spectator.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}

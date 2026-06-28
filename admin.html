@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CR Election — Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="antialiased min-h-screen pb-12 selection:bg-teal-500 selection:text-white bg-navy">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+    <!-- Use the admin UI from your original page, trimmed for brevity -->
+    <div class="glass-card rounded-2xl p-6 min-h-[480px]">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Admin — Voting &amp; Candidate Management</h2>
+        <div class="text-right space-y-2">
+          <div>
+            <div class="text-xs text-slate-400">Total Voters</div>
+            <div id="voteCountHeader" class="text-xl font-bold text-teal-400">0 / 58</div>
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <span id="voteStatusAdmin" class="text-[11px] px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Voting Open</span>
+            <button id="toggleVotingBtn" onclick="toggleVotingClosed()" class="px-3 py-1.5 rounded text-xs font-semibold bg-amber-500 text-slate-900 hover:bg-amber-400 transition-colors">
+              End Votes Early
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-blueAccent/30">
+          <h3 class="text-sm font-bold text-blue-400 mb-4">Rank B1 Candidates</h3>
+          <div id="ballotFormB1" class="space-y-3"></div>
+          <h3 class="text-sm font-bold text-teal-400 mt-6 mb-4">Rank B2 Candidates</h3>
+          <div id="ballotFormB2" class="space-y-3"></div>
+          <button onclick="requestVoteConfirmation()" id="submitVoteBtn" class="mt-6 w-full bg-teal-500 text-white px-4 py-3 rounded-xl">Review &amp; Submit Ballot</button>
+        </div>
+
+        <div class="bg-slate-800/40 p-5 rounded-xl border border-teal-500/30">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Candidate Roster</h3>
+            <button onclick="openAddCandidateModal()" class="px-3 py-2 bg-blue-500 text-white rounded">+ Add New</button>
+          </div>
+          <div id="candidateList" style="max-height:420px; overflow:auto"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modals and full admin UI preserved in JS (simple modals created dynamically) -->
+  <script src="assets/main.js"></script>
+  <script>adminInit();</script>
+</body>
+</html>
