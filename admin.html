@@ -92,4 +92,34 @@
   <script src="assets/main.js"></script>
   <script>adminInit();</script>
 </body>
+<script>
+  // Vercel will replace this at deploy time
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "fallback-if-not-set";
+
+  function verifyAdmin() {
+    // Try to get from URL first (for easy testing)
+    const urlParams = new URLSearchParams(window.location.search);
+    let entered = urlParams.get('pw');
+
+    if (!entered) {
+      entered = prompt("🔐 Enter Admin Password to continue:");
+    }
+
+    if (entered === ADMIN_PASSWORD) {
+      // Optional: Store in session so refreshing doesn't ask again
+      sessionStorage.setItem('admin_auth', 'true');
+      console.log("%c✅ Admin access granted", "color: lime; font-size: 14px");
+      return true;
+    } else {
+      alert("❌ Access Denied");
+      window.location.href = "/spectator.html";
+      return false;
+    }
+  }
+
+  // Run on page load
+  if (!sessionStorage.getItem('admin_auth')) {
+    verifyAdmin();
+  }
+</script>
 </html>
