@@ -35,6 +35,11 @@
           </div>
           
           <div class="flex items-center justify-end gap-3">
+            <button
+  onclick="logout()"
+  class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-700 text-white hover:bg-slate-600 transition-colors shadow-lg">
+  Logout
+</button>
             <button id="toggleVotingBtn" onclick="toggleVotingClosed()" class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-orange-600 text-white hover:bg-orange-500 transition-colors shadow-lg">
               End Votes Early
             </button>
@@ -90,36 +95,58 @@
   </main>
 
   <script src="assets/main.js"></script>
-  <script>adminInit();</script>
-</body>
-<script>
-  // Vercel will replace this at deploy time
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "fallback-if-not-set";
+  <script>
+async function authenticateAdmin() {
 
-  function verifyAdmin() {
-    // Try to get from URL first (for easy testing)
-    const urlParams = new URLSearchParams(window.location.search);
-    let entered = urlParams.get('pw');
+  // Already authenticated
+  if (sessionStorage.getItem("admin_auth") === "true") {
+    adminInit();
+    return;
+  }
 
-    if (!entered) {
-      entered = prompt("🔐 Enter Admin Password to continue:");
-    }
+  const password = prompt("🔐 Enter Admin Password");
 
-    if (entered === ADMIN_PASSWORD) {
-      // Optional: Store in session so refreshing doesn't ask again
-      sessionStorage.setItem('admin_auth', 'true');
-      console.log("%c✅ Admin access granted", "color: lime; font-size: 14px");
-      return true;
+  if (password === null) {
+    location.replace("spectator.html");
+    return;
+  }
+
+  try {
+
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        password
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      sessionStorage.setItem("admin_auth", "true");
+      adminInit();
     } else {
-      alert("❌ Access Denied");
-      window.location.href = "/spectator.html";
-      return false;
+      alert("❌ Incorrect password.");
+      location.replace("spectator.html");
     }
+
+  } catch (err) {
+    console.error(err);
+    alert("Unable to contact server.");
+    location.replace("spectator.html");
   }
 
-  // Run on page load
-  if (!sessionStorage.getItem('admin_auth')) {
-    verifyAdmin();
-  }
+}
+
+function logout() {
+  sessionStorage.removeItem("admin_auth");
+  location.replace("spectator.html");
+}
+
+authenticateAdmin();
 </script>
+</body>
 </html>
