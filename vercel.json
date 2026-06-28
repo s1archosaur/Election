@@ -3,6 +3,16 @@
   "rewrites": [
     { "source": "/", "destination": "/spectator.html" },
     { "source": "/spectator", "destination": "/spectator.html" },
+    { "source": "/rounds", "destination": "/rounds.html" },
+    { "source": "/audit", "destination": "/audit.html" },
     { "source": "/admin", "destination": "/admin.html" }
+  ],
+  "headers": [
+    {
+      "source": "/assets/main.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
   ]
 }
